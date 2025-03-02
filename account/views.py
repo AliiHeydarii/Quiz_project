@@ -12,7 +12,7 @@ def register_user(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password2')
-            user = User.objects.create_user(email,password)
+            User.objects.create_user(email,password)
             return redirect('login')
         return render(request,'account/register.html',{'form' : form})
     form = UserRegisterForm()
@@ -31,7 +31,7 @@ def login_user(request):
                 messages.info(request,'email or password is wrong!')
                 return redirect('login')
             login(request,user)
-            print('you logged in')
+            return redirect('index')
         return render(request , 'account/login.html' , {'form' : form})
     
     form = UserLoginForm()

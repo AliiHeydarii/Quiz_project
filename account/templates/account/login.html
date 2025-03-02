@@ -4,6 +4,11 @@ login page
 {% endblock %}
 
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            {{message}}
+        {% endfor %}
+    {% endif %}
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
