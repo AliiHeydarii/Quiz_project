@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}
+Home Page
+{% endblock %}
+
+{% block content %}
+
+        <form action="" method="post">
+
+            {% csrf_token %}
+            {% for question in questions %}
+            <div> {{question}} </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="flexRadioDefault1" value="answer1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    {{question.answer1}}
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="flexRadioDefault1" value="answer2">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    {{question.answer2}}
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="flexRadioDefault1" value="answer3">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    {{question.answer3}}
+                </label>
+              </div>
+        
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="flexRadioDefault1" value="answer4">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    {{question.answer4}}
+                </label>
+              </div>
+              <hr>
+              {% endfor %}
+            <input type="submit" value="Send">
+        </form>
+
+
+{% endblock %}

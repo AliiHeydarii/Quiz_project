@@ -4,5 +4,9 @@ Home Page
 {% endblock %}
 
 {% block content %}
-    home page
+    {% for quiz in quiz_list %}
+    <ul>
+        <li><a href="{% url 'quiz-detail' quiz.id %}"> {{quiz}} </a></li>
+    </ul>   
+    {% endfor %}
 {% endblock %}

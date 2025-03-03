@@ -13,30 +13,41 @@ class Quiz(models.Model):
     
     
 class Question(models.Model):
+
+    ANSWER_CHOICES = [
+        ('answer1' , 'itme 1'),
+        ('answer2' , 'itme 2'),
+        ('answer3' , 'itme 3'),
+        ('answer4' , 'itme 4'),
+    ]
+
     text = models.TextField()
     quiz = models.ForeignKey(Quiz,on_delete=models.CASCADE,related_name='questions')
+    answer1 = models.CharField(max_length=250)
+    answer2 = models.CharField(max_length=250)
+    answer3 = models.CharField(max_length=250)
+    answer4 = models.CharField(max_length=250)
+
+    correct_answer = models.CharField(max_length=10 , choices=ANSWER_CHOICES)
+    
 
     def __str__(self):
         return self.text
 
     
-class Choice(models.Model):
-    question = models.ForeignKey(Question,on_delete=models.CASCADE,related_name='choices')
-    text = models.CharField(max_length=300)
-    is_correct = models.BooleanField(default=False)
+# class Choice(models.Model):
+#     question = models.ForeignKey(Question,on_delete=models.CASCADE,related_name='choices')
+#     text = models.CharField(max_length=300)
+#     is_correct = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.text
+#     def __str__(self):
+#         return self.text
     
-    
+
 class UserAnswer(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='answers')
     question = models.ForeignKey(Question,on_delete=models.CASCADE,related_name='user_answers')
-    selected_choice = models.ForeignKey(Choice,on_delete=models.CASCADE,related_name='user_selections')
     created_at = models.DateTimeField(auto_now_add=True)
-
-    def is_correct(self):
-        return self.selected_choice.is_correct
 
     def __str__(self):
         return f'{self.user.email}-{self.question.text}-{self.selected_choice.text}'
