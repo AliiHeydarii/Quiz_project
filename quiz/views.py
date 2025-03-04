@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from .models import Quiz,Question,UserAnswer
+from django.contrib.auth.decorators import login_required
 
+@login_required()
 def index_view(request):
     quiz_list = Quiz.objects.all()
     return render(request , 'quiz/index.html' , {'quiz_list' : quiz_list})
 
-
+@login_required()
 def quize_detail(request,pk):
     quiz = Quiz.objects.get(pk=pk)
     questions = Question.objects.filter(quiz=quiz)
