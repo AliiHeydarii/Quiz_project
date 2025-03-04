@@ -1,14 +1,5 @@
 from rest_framework import serializers
 from quiz.models import Quiz,Question , UserAnswer
-from django.contrib.auth import get_user_model
-
-User = get_user_model
-
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['email']
-
 
 
 class QuizSerializer(serializers.ModelSerializer):
@@ -24,10 +15,17 @@ class QuizSerializer(serializers.ModelSerializer):
     def get_user_score(self,obj):
         request = self.context.get('request')
         user_answer = UserAnswer.objects.filter(user=request.user,quiz=obj).first()
-        return user_answer.score
-
+        if user_answer:
+            return user_answer.score
+        return None
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ['text' , 'answer1' , 'answer2', 'answer3' , 'answer4']
+        fields = ['id' , 'text' , 'option1' , 'option2', 'option3' , 'option4']
+
+
+class QuiestionAnswerSerializer(serializers.Serializer):
+        answers = serializers.DictField(
+        child=serializers.ChoiceField(choices=['option1', 'option2', 'option3', 'option4'])
+    )

@@ -19,18 +19,18 @@ class Quiz(models.Model):
 class Question(models.Model):
 
     ANSWER_CHOICES = [
-        ('answer1' , 'itme 1'),
-        ('answer2' , 'itme 2'),
-        ('answer3' , 'itme 3'),
-        ('answer4' , 'itme 4'),
+        ('option1' , 'option1'),
+        ('option2' , 'option2'),
+        ('option3' , 'option3'),
+        ('option4' , 'option4'),
     ]
 
     text = models.TextField()
     quiz = models.ForeignKey(Quiz,on_delete=models.CASCADE,related_name='questions')
-    answer1 = models.CharField(max_length=250)
-    answer2 = models.CharField(max_length=250)
-    answer3 = models.CharField(max_length=250)
-    answer4 = models.CharField(max_length=250)
+    option1 = models.CharField(max_length=250)
+    option2 = models.CharField(max_length=250)
+    option3 = models.CharField(max_length=250)
+    option4 = models.CharField(max_length=250)
 
     correct_answer = models.CharField(max_length=10 , choices=ANSWER_CHOICES)
     
