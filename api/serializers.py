@@ -10,7 +10,7 @@ class QuizSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_absolute_url(self,obj):
-        return obj.get_absolute_url()
+        return f'http://0.0.0.0:8000/api{obj.get_absolute_url()}'
     
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
