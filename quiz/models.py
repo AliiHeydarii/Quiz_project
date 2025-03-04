@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -10,6 +11,9 @@ class Quiz(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('quiz-detail' , kwargs={'pk' : self.pk})
     
     
 class Question(models.Model):
@@ -34,14 +38,6 @@ class Question(models.Model):
     def __str__(self):
         return self.text
 
-    
-# class Choice(models.Model):
-#     question = models.ForeignKey(Question,on_delete=models.CASCADE,related_name='choices')
-#     text = models.CharField(max_length=300)
-#     is_correct = models.BooleanField(default=False)
-
-#     def __str__(self):
-#         return self.text
     
 
 class UserAnswer(models.Model):
