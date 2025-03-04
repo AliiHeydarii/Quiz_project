@@ -5,7 +5,9 @@ from django.contrib.auth.decorators import login_required
 @login_required()
 def index_view(request):
     quiz_list = Quiz.objects.all()
-    return render(request , 'quiz/index.html' , {'quiz_list' : quiz_list})
+    for quiz in quiz_list:
+        user_answer = UserAnswer.objects.filter(user=request.user , quiz=quiz).first()
+    return render(request , 'quiz/index.html' , {'quiz_list' : quiz_list,'user_answer' : user_answer})
 
 @login_required()
 def quize_detail(request,pk):
