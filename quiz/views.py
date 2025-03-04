@@ -5,9 +5,13 @@ from django.contrib.auth.decorators import login_required
 @login_required()
 def index_view(request):
     quiz_list = Quiz.objects.all()
+    user_answers = UserAnswer.objects.filter(user=request.user)
+
     for quiz in quiz_list:
-        user_answer = UserAnswer.objects.filter(user=request.user , quiz=quiz).first()
-    return render(request , 'quiz/index.html' , {'quiz_list' : quiz_list,'user_answer' : user_answer})
+        quiz.user_answer = user_answers.filter(quiz=quiz).first()
+        
+    return render(request , 'quiz/index.html' , {'quiz_list' : quiz_list})
+
 
 @login_required()
 def quize_detail(request,pk):
@@ -24,16 +28,12 @@ def quize_detail(request,pk):
             if answer == question.correct_answer :
                 score += 1
 
-        user_answer = UserAnswer.objects.filter(user=request.user).first()
-        if user_answer:
-            pass
-        else:
-            UserAnswer.objects.create(
-                user = request.user,
-                quiz = quiz , 
-                score = score
-            )
-        return render(request , 'quiz/result.html' , {'score' : score})
-    return render(request,'quiz/quiz_detail.html' , {'questions' : questions})
+        UserAnswer.objects.get_or_create(
+            user=request.user,
+            quiz=quiz,
+            score=score
+        )
+        return render(request , 'quiz/result.html' , {'score' : score , 'quiz' : quiz})
+    return render(request,'quiz/quiz_detail.html' , {'questions' : questions , 'quiz' : quiz})
 
 
