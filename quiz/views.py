@@ -26,7 +26,7 @@ def quize_detail(request,pk):
 
         user_answer = UserAnswer.objects.filter(user=request.user).first()
         if user_answer:
-            print('user')
+            pass
         else:
             UserAnswer.objects.create(
                 user = request.user,
