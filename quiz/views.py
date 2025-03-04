@@ -1,16 +1,17 @@
 from django.shortcuts import render
 from .models import Quiz,Question,UserAnswer
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 
 @login_required()
 def index_view(request):
     quiz_list = Quiz.objects.all()
     user_answers = UserAnswer.objects.filter(user=request.user)
-
+    total_score = user_answers.aggregate(total_score=Sum('score'))['total_score']
     for quiz in quiz_list:
         quiz.user_answer = user_answers.filter(quiz=quiz).first()
-        
-    return render(request , 'quiz/index.html' , {'quiz_list' : quiz_list})
+
+    return render(request , 'quiz/index.html' , {'quiz_list' : quiz_list , 'total_score' : total_score })
 
 
 @login_required()
